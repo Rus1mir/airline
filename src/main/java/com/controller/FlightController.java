@@ -58,9 +58,9 @@ public class FlightController {
 
     //business logic
     @RequestMapping(method = RequestMethod.GET, value = "/ratingFrom")
-    public ResponseEntity<List<String>> getRatingFrom() throws Exception {
+    public ResponseEntity<List<String>> mostPopularFrom() throws Exception {
 
-        List<String> rating = flightService.getRatingFrom();
+        List<String> rating = flightService.mostPopularFrom();
 
         if (rating.size() == 0)
             throw new NotFoundException("No flights found");
@@ -68,9 +68,9 @@ public class FlightController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/ratingTo")
-    public ResponseEntity<List<String>> getRatingTo() throws Exception {
+    public ResponseEntity<List<String>> mostPopularTo() throws Exception {
 
-        List<String> rating = flightService.getRatingTo();
+        List<String> rating = flightService.mostPopularTo();
 
         if (rating.size() == 0)
             throw new NotFoundException("No flights found");
@@ -78,9 +78,9 @@ public class FlightController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/findByFilter")
-    public ResponseEntity<List<Flight>> getFlightsByDate(@RequestBody Filter filter) throws Exception {
+    public ResponseEntity<List<Flight>> flightsByDate(@RequestBody Filter filter) throws Exception {
 
-        List<Flight> flights = flightService.getFlightsByDate(filter);
+        List<Flight> flights = flightService.flightsByDate(filter);
         if (flights.size() == 0)
             throw new NotFoundException("Flights was not found");
         return new ResponseEntity<>(flights, HttpStatus.OK);

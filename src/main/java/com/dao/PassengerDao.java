@@ -18,7 +18,7 @@ public class PassengerDao extends GeneralDao<Passenger> {
             "GROUP BY P.id, P.lastName, P.nationality, P.dateOfBirth, P.passportCode " +
             "HAVING COUNT (F) > 5";
 
-    public List<Passenger> getRegularPassengers(int year) {
+    public List<Passenger> regularPassengers(int year) {
 
         return entityManager.createQuery(REGULAR_PASSENGER_REQ, Passenger.class)
                 .setParameter("YEAR", year)

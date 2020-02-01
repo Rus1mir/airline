@@ -1,6 +1,5 @@
 package com.dao;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.model.Filter;
 import com.model.Flight;
 import com.model.Plane;
@@ -22,21 +21,21 @@ public class FlightDao extends GeneralDao<Flight> {
 
     private final String RATING_FROM_REQ = "SELECT F.cityFrom FROM Flight F GROUP BY F.cityFrom ORDER BY COUNT(F.cityFrom)DESC";
 
-    public List<String> getRatingFrom() {
+    public List<String> mostPopularFrom() {
 
         return entityManager.createQuery(RATING_FROM_REQ, String.class).
                 setMaxResults(10).
                 getResultList();
     }
 
-    public List<String> getRatingTo() {
+    public List<String> mostPopularTo() {
 
         return entityManager.createQuery(RATING_TO_REQ, String.class).
                 setMaxResults(10).
                 getResultList();
     }
 
-    public ArrayList<Flight> getFlightsByDate(Filter filter) {
+    public ArrayList<Flight> flightsByDate(Filter filter) {
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Flight> flightCriteria = criteriaBuilder.createQuery(Flight.class);
@@ -68,10 +67,6 @@ public class FlightDao extends GeneralDao<Flight> {
     private Date addDays(Date date, int days) {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-        c.set(Calendar.HOUR,0);
-        c.set(Calendar.MINUTE,0);
-        c.set(Calendar.SECOND,0);
-        c.set(Calendar.MILLISECOND,0);
         c.add(Calendar.DATE, days);
         return c.getTime();
     }

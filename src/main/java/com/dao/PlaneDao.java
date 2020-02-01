@@ -24,7 +24,7 @@ public class PlaneDao extends GeneralDao<Plane> {
             "GROUP BY P.id, P.avgFuelConsumption, P.code, P.model, P.yearProduced " +
             "HAVING COUNT(F) > 25";
 
-    public List<Plane> getOldPlanes() {
+    public List<Plane> oldPlanes() {
 
         Date date = java.sql.Date.valueOf(LocalDate.now().minusYears(20));
 
@@ -33,7 +33,7 @@ public class PlaneDao extends GeneralDao<Plane> {
                 getResultList();
     }
 
-    public List<Plane> getRegularPlanes(int year) {
+    public List<Plane> regularPlanes(int year) {
 
         return entityManager.createQuery(REGULAR_PLANES_REG, Plane.class).
                 setParameter("YEAR", year).

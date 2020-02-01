@@ -36,16 +36,16 @@ public class FlightService {
     }
 
     //business logic
-    public List<String> getRatingFrom() {
-        return flightDao.getRatingFrom();
+    public List<String> mostPopularFrom() {
+        return flightDao.mostPopularFrom();
     }
 
-    public List<String> getRatingTo() {
-        return flightDao.getRatingTo();
+    public List<String> mostPopularTo() {
+        return flightDao.mostPopularTo();
     }
 
-    public List<Flight> getFlightsByDate(Filter filter) {
+    public List<Flight> flightsByDate(Filter filter) {
 
-        return flightDao.getFlightsByDate(filter);
+        return flightDao.flightsByDate(filter);
     }
 }

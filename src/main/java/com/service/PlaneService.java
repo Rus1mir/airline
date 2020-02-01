@@ -35,13 +35,13 @@ public class PlaneService {
     }
 
     //business logic
-    public List<Plane> getOldPlanes() {
+    public List<Plane> oldPlanes() {
 
-        return planeDao.getOldPlanes();
+        return planeDao.oldPlanes();
     }
 
-    public List<Plane> getRegularPlanes(int year) {
+    public List<Plane> regularPlanes(int year) {
 
-        return planeDao.getRegularPlanes(year);
+        return planeDao.regularPlanes(year);
     }
 }

@@ -56,18 +56,18 @@ public class PlaneController {
 
     //business
     @RequestMapping(method = RequestMethod.GET, value = "/findOld")
-    public ResponseEntity<List<Plane>> findOld() throws Exception {
+    public ResponseEntity<List<Plane>> oldPlanes() throws Exception {
 
-        List<Plane> planes = planeService.getOldPlanes();
+        List<Plane> planes = planeService.oldPlanes();
         if (planes.size() == 0)
             throw new NotFoundException("Plane oldest when 20 years old was not found");
         return new ResponseEntity<>(planes, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/findRegular")
-    public ResponseEntity<List<Plane>> findRegular(@RequestParam(value = "year") int year) throws Exception {
+    public ResponseEntity<List<Plane>> regularPlanes(@RequestParam(value = "year") int year) throws Exception {
 
-        List<Plane> planes = planeService.getRegularPlanes(year);
+        List<Plane> planes = planeService.regularPlanes(year);
         if (planes.size() == 0)
             throw new NotFoundException("Planes with over 25 flights per year: " + year + " not found");
         return new ResponseEntity<>(planes, HttpStatus.OK);

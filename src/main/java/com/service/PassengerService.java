@@ -35,8 +35,8 @@ public class PassengerService {
     }
 
     //business logic
-    public List<Passenger> getRegularPassengers(int year) {
+    public List<Passenger> regularPassengers(int year) {
 
-        return passengerDao.getRegularPassengers(year);
+        return passengerDao.regularPassengers(year);
     }
 }

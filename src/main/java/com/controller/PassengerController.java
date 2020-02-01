@@ -55,9 +55,9 @@ public class PassengerController {
 
     //business logic
     @RequestMapping(method = RequestMethod.GET, value = "/regular")
-    public ResponseEntity<List<Passenger>> findRegular(@RequestParam(value = "year") int year) throws Exception {
+    public ResponseEntity<List<Passenger>> regularPassengers(@RequestParam(value = "year") int year) throws Exception {
 
-        List<Passenger> passengers = passengerService.getRegularPassengers(year);
+        List<Passenger> passengers = passengerService.regularPassengers(year);
         if (passengers.size() == 0)
             throw new NotFoundException("For year: " + year + " regular passengers was not found");
         return new ResponseEntity<>(passengers, HttpStatus.OK);
