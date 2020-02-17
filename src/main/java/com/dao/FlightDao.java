@@ -21,6 +21,8 @@ public class FlightDao extends GeneralDao<Flight> {
 
     private final String RATING_FROM_REQ = "SELECT F.cityFrom FROM Flight F GROUP BY F.cityFrom ORDER BY COUNT(F.cityFrom)DESC";
 
+    private CriteriaBuilder criteriaBuilder;
+
     public List<String> mostPopularFrom() {
 
         return entityManager.createQuery(RATING_FROM_REQ, String.class).
@@ -37,31 +39,36 @@ public class FlightDao extends GeneralDao<Flight> {
 
     public ArrayList<Flight> flightsByDate(Filter filter) {
 
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Flight> flightCriteria = criteriaBuilder.createQuery(Flight.class);
         Root<Flight> from = flightCriteria.from(Flight.class);
         Join<Flight, Plane> planeJoin = from.join("plane");
-        Predicate predicate = criteriaBuilder.conjunction();
 
-        if(filter.getDateAfter() != null && filter.getDateBefore() == null)
-            filter.setDateBefore(addDays(filter.getDateAfter(), 1));
+        Predicate predicate = andBetweenDate(criteriaBuilder.conjunction(),
+                from.get("dateFlight"), filter.getDateAfter(), filter.getDateBefore());
 
-        if (filter.getDateBefore() != null && filter.getDateAfter() != null)
-            predicate = criteriaBuilder.and(criteriaBuilder.between
-                    (from.get("dateFlight"), filter.getDateAfter(), filter.getDateBefore()));
+        predicate = andEqual(predicate, planeJoin.get("model"), filter.getPlaneName());
 
-        if (filter.getPlaneName() != null)
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(planeJoin.get("model"), filter.getPlaneName()));
+        predicate = andEqual(predicate, from.get("cityFrom"), filter.getCityDepart());
 
-        if (filter.getCityDepart() != null)
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(from.get("cityFrom"), filter.getCityDepart()));
-
-        if (filter.getCityDest() != null)
-            predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(from.get("cityTo"), filter.getCityDest()));
-
+        predicate = andEqual(predicate, from.get("cityTo"), filter.getCityDest());
 
         flightCriteria.select(from).where(predicate);
         return (ArrayList<Flight>) entityManager.createQuery(flightCriteria).getResultList();
+    }
+
+    private Predicate andBetweenDate(Predicate p, Expression<Date> ex, Date d1, Date d2) {
+
+        if (d1 != null)
+            return criteriaBuilder.and(p, criteriaBuilder.between(ex, d1, d2 == null ? addDays(d1, 1) : d2));
+        return p;
+    }
+
+    private Predicate andEqual(Predicate p, Expression<?> ex, Object o) {
+
+        if (o != null)
+             criteriaBuilder.equal(ex, o);
+        return p;
     }
 
     private Date addDays(Date date, int days) {

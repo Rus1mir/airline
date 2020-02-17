@@ -12,7 +12,7 @@ public class PassengerDao extends GeneralDao<Passenger> {
         super(Passenger.class);
     }
 
-    String REGULAR_PASSENGER_REQ = "SELECT P FROM Passenger P " +
+    private final String REGULAR_PASSENGER_REQ = "SELECT P FROM Passenger P " +
             "INNER JOIN P.flights F " +
             "WHERE YEAR(F.dateFlight) = :YEAR " +
             "GROUP BY P.id, P.lastName, P.nationality, P.dateOfBirth, P.passportCode " +

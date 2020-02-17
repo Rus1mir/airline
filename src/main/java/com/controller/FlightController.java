@@ -58,12 +58,10 @@ public class FlightController {
 
     //business logic
     @RequestMapping(method = RequestMethod.GET, value = "/ratingFrom")
-    public ResponseEntity<List<String>> mostPopularFrom() throws Exception {
+    public ResponseEntity<List<String>> mostPopularFrom() {
 
         List<String> rating = flightService.mostPopularFrom();
 
-        if (rating.size() == 0)
-            throw new NotFoundException("No flights found");
         return new ResponseEntity<>(rating, HttpStatus.OK);
     }
 
